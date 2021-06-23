@@ -1,9 +1,14 @@
 import PluginBase from '@electron-forge/plugin-base';
 import { asyncOra } from '@electron-forge/async-ora';
+import Logger, { Tab }  from '@electron-forge/web-multi-logger';
+
+// import spawn from 'cross-spawn';
 
 import debug from 'debug';
 
 const d = debug('electron-forge:plugin:create-react-app');
+
+const DEFAULT_LOGGER_PORT = 9000;
 
 export interface ICreateReactAppPlugin {}
 
@@ -11,6 +16,10 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
   name = 'create-react-app';
 
   private projectDir!: string;
+  private _configGenerator!: any;
+
+  private loggers: Logger[] = [];
+  private loggerPort = DEFAULT_LOGGER_PORT;
 
   constructor(opts: ICreateReactAppPlugin) {
     super(opts);
@@ -18,6 +27,14 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
 
     this.getHook = this.getHook.bind(this);
     this.startLogic = this.startLogic.bind(this);
+  }
+
+  get configGenerator() {
+    if (!this._configGenerator) {
+      console.log(this._configGenerator, this.config);
+    }
+
+    return this._configGenerator;
   }
 
   exitHandler = (options: { cleanup?: boolean, exit?: boolean }, err?: Error) => {
@@ -44,6 +61,10 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
     this.projectDir = dir;
   }
 
+  private runYarnBuildReactApp = async (): Promise<any | undefined> => new Promise((resolve, reject) => {
+
+  });
+
   buildReactApps = async () => {
     await asyncOra('Building CRA Apps', async () => {
 
@@ -62,6 +83,9 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
   }
 
   async startLogic(): Promise<false> {
+    const logger = new Logger(this.loggerPort);
+    this.loggers.push(logger);
+    await logger.start();
     return false;
   }
 }
