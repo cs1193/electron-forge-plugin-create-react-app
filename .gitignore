@@ -68,5 +68,5 @@ yarn-error.log
 tmp
 .tmp
 
-lib/**/*
+# lib/**/*
 !lib/.gitkeep
