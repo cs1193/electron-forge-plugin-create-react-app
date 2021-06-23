@@ -1,4 +1,5 @@
 import PluginBase from '@electron-forge/plugin-base';
+import { asyncOra } from '@electron-forge/async-ora';
 
 import debug from 'debug';
 
@@ -43,16 +44,18 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
     this.projectDir = dir;
   }
 
-  buildReactApp = async () => {
+  buildReactApps = async () => {
+    await asyncOra('Building CRA Apps', async () => {
 
+    });
   }
 
   getHook(name: string) {
     switch(name) {
       case 'prePackage':
         return async () => {
-
-        }
+          await this.buildReactApps();
+        };
       default:
         return null;
     }
