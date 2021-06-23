@@ -9,16 +9,38 @@ export interface ICreateReactAppPlugin {}
 export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlugin> {
   name = 'create-react-app';
 
+  private projectDir!: string;
+
   constructor(opts: ICreateReactAppPlugin) {
     super(opts);
-    d('create-react-app:init');
+    d('__constructor__');
 
     this.getHook = this.getHook.bind(this);
     this.startLogic = this.startLogic.bind(this);
   }
 
+  exitHandler = (options: { cleanup?: boolean, exit?: boolean }, err?: Error) => {
+    d('exit-handler');
+
+    if (options.cleanup) {
+      console.log('cleanup');
+    }
+
+    if (err) console.error(err.stack);
+    if (options.exit) process.exit();
+  }
+
   init = (dir: string) => {
-    console.log(dir);
+    d('init');
+
+    this.setDirectories(dir);
+
+    process.on('exit', (_code) => this.exitHandler({ cleanup: true }));
+    process.on('SIGINT', (_signal) => this.exitHandler({ exit: true }));
+  }
+
+  setDirectories = (dir: string) => {
+    this.projectDir = dir;
   }
 
   buildReactApp = async () => {
