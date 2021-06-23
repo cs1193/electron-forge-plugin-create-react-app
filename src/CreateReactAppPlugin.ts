@@ -53,6 +53,8 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
 
     this.setDirectories(dir);
 
+    this.configGenerator;
+
     process.on('exit', (_code) => this.exitHandler({ cleanup: true }));
     process.on('SIGINT', (_signal) => this.exitHandler({ exit: true }));
   }
