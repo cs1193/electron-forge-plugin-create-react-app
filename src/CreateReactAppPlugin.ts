@@ -7,6 +7,8 @@ import * as _ from 'lodash';
 
 import debug from 'debug';
 
+import ConfigGenerator from './ConfigGenerator';
+
 const d = debug('electron-forge:plugin:create-react-app');
 
 const DEFAULT_LOGGER_PORT = 9000;
