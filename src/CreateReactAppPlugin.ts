@@ -2,6 +2,7 @@ import PluginBase from '@electron-forge/plugin-base';
 import { asyncOra } from '@electron-forge/async-ora';
 import Logger, { Tab }  from '@electron-forge/web-multi-logger';
 
+import * as _ from 'lodash';
 // import spawn from 'cross-spawn';
 
 import debug from 'debug';
@@ -89,5 +90,10 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
     this.loggers.push(logger);
     await logger.start();
     return false;
+  }
+
+  toEnvironmentVariable(name: string) {
+    const suffix = '_REACT_APP_ENTRY';
+    return `${_.replace(_.toUpper(name), / /g, '_')}${suffix}`;
   }
 }

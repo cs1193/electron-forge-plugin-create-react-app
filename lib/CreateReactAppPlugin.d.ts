@@ -19,4 +19,5 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
     buildReactApps: () => Promise<void>;
     getHook(name: string): (() => Promise<void>) | null;
     startLogic(): Promise<false>;
+    toEnvironmentVariable(name: string): string;
 }
