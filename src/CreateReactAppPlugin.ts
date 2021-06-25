@@ -19,9 +19,11 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
   name = 'create-react-app';
 
   private projectDir!: string;
+
   private _configGenerator!: any;
 
   private loggers: Logger[] = [];
+
   private loggerPort = DEFAULT_LOGGER_PORT;
 
   constructor(opts: ICreateReactAppPlugin) {
@@ -66,13 +68,18 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
     this.projectDir = dir;
   }
 
-  private runYarnBuildReactApp = async (): Promise<any | undefined> => new Promise((resolve, reject) => {
-
+  private runYarnBuildReactApp = async (path: string): Promise<any | undefined> => new Promise((resolve, reject) => {
+    console.log(path);
   });
 
   buildReactApps = async () => {
     await asyncOra('Building CRA Apps', async () => {
-
+      // @ts-ignore
+      _.forEach(this.config.getModules(), async (module) => {
+        await this.runYarnBuildReactApp(
+          module.path
+        );
+      });
     });
   }
 
@@ -94,8 +101,4 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
     return false;
   }
 
-  toEnvironmentVariable(name: string) {
-    const suffix = '_REACT_APP_ENTRY';
-    return `${_.replace(_.toUpper(name), / /g, '_')}${suffix}`;
-  }
 }
