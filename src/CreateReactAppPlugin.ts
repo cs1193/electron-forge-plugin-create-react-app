@@ -36,7 +36,9 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
 
   get configGenerator() {
     if (!this._configGenerator) {
-      console.log(this._configGenerator, this.config);
+      this._configGenerator = new ConfigGenerator(
+        this.config
+      );
     }
 
     return this._configGenerator;
