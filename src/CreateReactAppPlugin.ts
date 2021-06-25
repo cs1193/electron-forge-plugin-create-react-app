@@ -77,7 +77,7 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
   buildReactApps = async () => {
     await asyncOra('Building CRA Apps', async () => {
       // @ts-ignore
-      _.forEach(this.config.getModules(), async (module) => {
+      _.forEach(this.configGenerator.getModules(), async (module) => {
         await this.runYarnBuildReactApp(
           module.path
         );
