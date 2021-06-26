@@ -22,6 +22,7 @@ export function copyBuildData(pathToPackage: string) {
   const tmpDir = path.join(process.cwd(), '.tmp');
   const directoryName = path.basename(pathToPackage);
   const tmpDirPath = path.join(tmpDir, directoryName);
+  const pkgPath = path.join(process.cwd(), 'packages', directoryName);
 
-  fse.copySync(pathToPackage, tmpDirPath);
+  fse.copySync(pkgPath, tmpDirPath);
 }
