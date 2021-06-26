@@ -15,6 +15,8 @@ export function installYarnModules(pathToPackage: string) {
 }
 
 export function copyBuildData(pathToPackage: string) {
+  // eslint-disable-next-line no-console
+  console.log('copyBuildData');
   const tmpDir = path.join(process.cwd(), '.tmp');
   const directoryName = path.basename(pathToPackage);
   const tmpDirPath = path.join(tmpDir, directoryName);
