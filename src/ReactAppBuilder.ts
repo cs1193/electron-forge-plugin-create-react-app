@@ -1,22 +1,37 @@
 import spawn from 'cross-spawn';
 import path from 'path';
+import fs from 'fs';
+
 import * as fse from 'fs-extra';
+import * as _ from 'lodash';
 
 // eslint-disable-next-line import/prefer-default-export
 export function installYarnModules(pathToPackage: string) {
-  const directoryName = path.basename(pathToPackage);
-  const packageDirPath = path.join(process.cwd(), '../../packages', directoryName);
+  // const packageDirPath = path.join(process.cwd(), '../../packages', directoryName);
+  const appDir = process.cwd();
+  const packageDirPath = path.join(process.cwd(), pathToPackage);
 
   process.chdir(packageDirPath);
   spawn.sync('yarn');
-  process.chdir('../../');
+  process.chdir(appDir);
 }
 
 export function copyBuildData(pathToPackage: string) {
-  const tmpDir = path.join(process.cwd(), '.tmp');
+  const tmpDir = path.join(process.cwd(), '.create-react-app');
   const directoryName = path.basename(pathToPackage);
   const tmpDirPath = path.join(tmpDir, directoryName);
   const pkgPath = path.join(process.cwd(), 'packages', directoryName);
 
   fse.copySync(pkgPath, tmpDirPath);
+}
+
+// eslint-disable-next-line class-methods-use-this
+export function toEnvironmentVariable(name: string): string {
+  const suffix: string = '_REACT_APP_ENTRY';
+  return `${_.replace(_.toUpper(name), / /g, '_')}${suffix}`;
+}
+
+export function createDefinesFile(data: any) {
+  const pathToDefinesFile = path.join(process.cwd(), '.create-react-app', 'defines.json');
+  fs.writeFileSync(pathToDefinesFile, JSON.stringify(data, null, 2));
 }

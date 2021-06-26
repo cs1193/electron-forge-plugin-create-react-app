@@ -4,11 +4,8 @@ export interface ICreateReactAppPlugin {
 export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlugin> {
     name: string;
     private projectDir;
-    private _configGenerator;
-    private loggers;
-    private loggerPort;
+    private craDir;
     constructor(opts: ICreateReactAppPlugin);
-    get configGenerator(): any;
     exitHandler: (options: {
         cleanup?: boolean;
         exit?: boolean;

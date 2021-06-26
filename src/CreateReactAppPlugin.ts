@@ -1,20 +1,21 @@
+import path from 'path';
+import * as fs from 'fs';
+
 import PluginBase from '@electron-forge/plugin-base';
 import { asyncOra } from '@electron-forge/async-ora';
-import Logger, { Tab } from '@electron-forge/web-multi-logger';
 
 import * as _ from 'lodash';
 
 import debug from 'debug';
 
-import ConfigGenerator from './ConfigGenerator';
 import {
   installYarnModules,
   copyBuildData,
+  toEnvironmentVariable,
+  createDefinesFile
 } from './ReactAppBuilder';
 
 const d = debug('electron-forge:plugin:create-react-app');
-
-const DEFAULT_LOGGER_PORT = 9000;
 
 export interface ICreateReactAppPlugin {}
 
@@ -23,11 +24,7 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
 
   private projectDir!: string;
 
-  private _configGenerator!: any;
-
-  private loggers: Logger[] = [];
-
-  private loggerPort = DEFAULT_LOGGER_PORT;
+  private craDir!: string;
 
   constructor(opts: ICreateReactAppPlugin) {
     super(opts);
@@ -37,24 +34,11 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
     this.startLogic = this.startLogic.bind(this);
   }
 
-  get configGenerator() {
-    // eslint-disable-next-line no-underscore-dangle
-    if (!this._configGenerator) {
-      // eslint-disable-next-line no-underscore-dangle
-      this._configGenerator = new ConfigGenerator(
-        this.config,
-      );
-    }
-
-    // eslint-disable-next-line no-underscore-dangle
-    return this._configGenerator;
-  }
-
   exitHandler = (options: { cleanup?: boolean, exit?: boolean }, err?: Error) => {
     d('exit-handler');
 
     if (options.cleanup) {
-      // console.log('cleanup');
+      console.log('cleanup');
     }
 
     if (err) console.error(err.stack);
@@ -74,22 +58,31 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
 
   setDirectories = (dir: string) => {
     this.projectDir = dir;
+    this.craDir = path.resolve(dir, '.create-react-app');
   }
 
   // eslint-disable-next-line max-len
-  private runYarnBuildReactApp = async (path: string): Promise<any | undefined> => new Promise((resolve, reject) => {
-    installYarnModules(path);
-    copyBuildData(path);
+  private runYarnBuildReactApp = async (module: any): Promise<any | undefined> => new Promise((resolve, reject) => {
+    try {
+      const defineName: string = toEnvironmentVariable(module.name);
+      installYarnModules(module.path);
+      copyBuildData(module.path);
+      resolve(defineName);
+    } catch (e) {
+      reject(e);
+    }
   });
 
   buildReactApps = async () => {
     await asyncOra('Building CRA Apps', async () => {
       // @ts-ignore
-      _.forEach(this.configGenerator.getModules(), async (module) => {
+      const defines = _.map(this.config.modules, async (module) => {
         await this.runYarnBuildReactApp(
-          module.path,
+          module,
         );
       });
+
+      createDefinesFile(defines);
     });
   }
 
@@ -104,10 +97,8 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
     }
   }
 
+  // eslint-disable-next-line class-methods-use-this
   async startLogic(): Promise<false> {
-    const logger = new Logger(this.loggerPort);
-    this.loggers.push(logger);
-    await logger.start();
     return false;
   }
 }
