@@ -7,7 +7,7 @@ export function installYarnModules(pathToPackage: string) {
   // eslint-disable-next-line no-console
   console.log(pathToPackage);
   const directoryName = path.basename(pathToPackage);
-  const packageDirPath = path.join(process.cwd(), 'packages', directoryName);
+  const packageDirPath = path.join(process.cwd(), '../../packages', directoryName);
   // eslint-disable-next-line no-console
   console.log(packageDirPath);
 
