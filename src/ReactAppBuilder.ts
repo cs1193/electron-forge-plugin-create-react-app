@@ -4,7 +4,10 @@ import * as fse from 'fs-extra';
 
 // eslint-disable-next-line import/prefer-default-export
 export function installYarnModules(pathToPackage: string) {
-  process.chdir(pathToPackage);
+  const directoryName = path.basename(pathToPackage);
+  const packageDirPath = path.join(process.cwd(), 'packages', directoryName);
+
+  process.chdir(packageDirPath);
   spawn.sync('yarn');
   process.chdir('../../');
 }
