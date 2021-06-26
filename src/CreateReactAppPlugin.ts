@@ -8,7 +8,8 @@ import debug from 'debug';
 
 import ConfigGenerator from './ConfigGenerator';
 import {
-  installYarnModules
+  installYarnModules,
+  copyBuildData,
 } from './ReactAppBuilder';
 
 const d = debug('electron-forge:plugin:create-react-app');
@@ -37,12 +38,15 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
   }
 
   get configGenerator() {
+    // eslint-disable-next-line no-underscore-dangle
     if (!this._configGenerator) {
+      // eslint-disable-next-line no-underscore-dangle
       this._configGenerator = new ConfigGenerator(
-        this.config
+        this.config,
       );
     }
 
+    // eslint-disable-next-line no-underscore-dangle
     return this._configGenerator;
   }
 
@@ -62,9 +66,9 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
 
     this.setDirectories(dir);
 
-    this.configGenerator;
-
+    // eslint-disable-next-line no-unused-vars
     process.on('exit', (_code) => this.exitHandler({ cleanup: true }));
+    // eslint-disable-next-line no-unused-vars
     process.on('SIGINT', (_signal) => this.exitHandler({ exit: true }));
   }
 
@@ -72,9 +76,10 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
     this.projectDir = dir;
   }
 
+  // eslint-disable-next-line max-len
   private runYarnBuildReactApp = async (path: string): Promise<any | undefined> => new Promise((resolve, reject) => {
     installYarnModules(path);
-    console.log(path);
+    copyBuildData(path);
   });
 
   buildReactApps = async () => {
@@ -82,14 +87,14 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
       // @ts-ignore
       _.forEach(this.configGenerator.getModules(), async (module) => {
         await this.runYarnBuildReactApp(
-          module.path
+          module.path,
         );
       });
     });
   }
 
   getHook(name: string) {
-    switch(name) {
+    switch (name) {
       case 'prePackage':
         return async () => {
           await this.buildReactApps();
@@ -105,5 +110,4 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
     await logger.start();
     return false;
   }
-
 }
