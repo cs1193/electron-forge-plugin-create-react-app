@@ -54,7 +54,7 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
     d('exit-handler');
 
     if (options.cleanup) {
-      console.log('cleanup');
+      // console.log('cleanup');
     }
 
     if (err) console.error(err.stack);
