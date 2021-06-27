@@ -12,7 +12,6 @@ import {
   installYarnModules,
   copyBuildData,
   toEnvironmentVariable,
-  createDefinesFile
 } from './ReactAppBuilder';
 
 const d = debug('electron-forge:plugin:create-react-app');
@@ -76,13 +75,11 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
   buildReactApps = async () => {
     await asyncOra('Building CRA Apps', async () => {
       // @ts-ignore
-      const defines = _.map(this.config.modules, async (module) => {
+      _.forEach(this.config.modules, async (module) => {
         await this.runYarnBuildReactApp(
           module,
         );
       });
-
-      createDefinesFile(defines);
     });
   }
 

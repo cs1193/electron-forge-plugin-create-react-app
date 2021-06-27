@@ -30,8 +30,3 @@ export function toEnvironmentVariable(name: string): string {
   const suffix: string = '_REACT_APP_ENTRY';
   return `${_.replace(_.toUpper(name), / /g, '_')}${suffix}`;
 }
-
-export function createDefinesFile(data: any) {
-  const pathToDefinesFile = path.join(process.cwd(), '.create-react-app', 'defines.json');
-  fs.writeFileSync(pathToDefinesFile, JSON.stringify(data, null, 2));
-}
