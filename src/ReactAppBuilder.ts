@@ -9,7 +9,7 @@ import * as _ from 'lodash';
 export function installYarnModules(pathToPackage: string) {
   // const packageDirPath = path.join(process.cwd(), '../../packages', directoryName);
   const appDir = process.cwd();
-  const packageDirPath = path.join(process.cwd(), pathToPackage);
+  const packageDirPath = path.resolve(pathToPackage);
 
   console.log(process.cwd(), packageDirPath);
 
