@@ -6,11 +6,11 @@ import * as fse from 'fs-extra';
 import * as _ from 'lodash';
 
 // eslint-disable-next-line import/prefer-default-export
-export function installYarnModules(pathToPackage: string) {
+export function installYarnModules(projectDir: string, pathToPackage: string) {
   // const packageDirPath = path.join(process.cwd(), '../../packages', directoryName);
   const appDir = process.cwd();
-  const packageName: string = path.basename(pathToPackage);
-  const packageDirPath = path.resolve(__dirname, 'packages', packageName);
+  // const packageName: string = path.basename(pathToPackage);
+  const packageDirPath = path.resolve(projectDir, pathToPackage);
 
   console.log(process.cwd(), packageDirPath);
 
