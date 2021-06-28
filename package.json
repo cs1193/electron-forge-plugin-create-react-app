@@ -39,7 +39,7 @@
   },
   "scripts": {
     "clean": "rimraf !lib/.gitkeep lib/**/*",
-    "build": "tsc",
+    "build": "yarn clean && tsc",
     "prepublishOnly": "tsc"
   }
 }

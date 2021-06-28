@@ -5,6 +5,7 @@ import PluginBase from '@electron-forge/plugin-base';
 import { asyncOra } from '@electron-forge/async-ora';
 
 import * as _ from 'lodash';
+import spawn from 'cross-spawn';
 
 import debug from 'debug';
 
