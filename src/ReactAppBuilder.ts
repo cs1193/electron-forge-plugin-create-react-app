@@ -11,6 +11,8 @@ export function installYarnModules(pathToPackage: string) {
   const appDir = process.cwd();
   const packageDirPath = path.join(process.cwd(), pathToPackage);
 
+  console.log(process.cwd(), packageDirPath);
+
   process.chdir(packageDirPath);
   spawn.sync('yarn');
   process.chdir(appDir);
