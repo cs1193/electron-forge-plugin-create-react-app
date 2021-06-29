@@ -1,3 +1,2 @@
-export default class ElectronForgeCreateReactAppDefinePlugin {
-    apply(compiler: any): void;
-}
+import webpack from 'webpack';
+export default function WebpackDefinePlugin(): webpack.DefinePlugin;
