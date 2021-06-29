@@ -1,5 +1,8 @@
+import chalk from 'chalk';
 import spawn from 'cross-spawn';
 import path from 'path';
+
+import * as fs from 'fs';
 
 import * as fse from 'fs-extra';
 import * as _ from 'lodash';
@@ -30,7 +33,7 @@ export function copyBuildData(projectDir: string, pathToPackage: string) {
     console.log('copyBuildData - 2', directoryName, tmpDir, pkgPath);
 
     fse.copySync(pkgPath, tmpDir);
-  } catch(e) {
+  } catch (e) {
     console.error(e);
   }
 }
@@ -47,5 +50,16 @@ export function lernaBootstrap(projectDir: string) {
     spawn.sync('lerna', ['bootstrap']);
   } catch (e) {
     console.error(e);
+  }
+}
+
+export function createDefinesData(projectDir: string, definesData: any) {
+  try {
+    const definesFile = path.join(projectDir, '.create-react-app', 'defines.json');
+    fs.writeFileSync(definesFile, JSON.stringify(definesData, null, 2));
+  } catch (e) {
+    console.error(
+      chalk.red(e),
+    );
   }
 }

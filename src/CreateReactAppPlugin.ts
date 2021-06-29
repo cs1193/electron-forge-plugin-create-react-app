@@ -13,7 +13,8 @@ import {
   installYarnModules,
   copyBuildData,
   toEnvironmentVariable,
-  lernaBootstrap
+  lernaBootstrap,
+  createDefinesData
 } from './ReactAppBuilder';
 
 const d = debug('electron-forge:plugin:create-react-app');
@@ -27,12 +28,16 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
 
   private craDir!: string;
 
+  private definesData: any;
+
   constructor(opts: ICreateReactAppPlugin) {
     super(opts);
     d('__constructor__');
 
     this.getHook = this.getHook.bind(this);
     this.startLogic = this.startLogic.bind(this);
+
+    this.definesData = {};
   }
 
   exitHandler = (options: { cleanup?: boolean, exit?: boolean }, err?: Error) => {
@@ -69,6 +74,9 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
       console.log('runYarnBuild', this.projectDir, module, defineName);
       installYarnModules(this.projectDir, module.path);
       copyBuildData(this.projectDir, module.path);
+
+      this.definesData[defineName] = `.create-react-app/${module.name}/index.html`;
+
       resolve(defineName);
     } catch (e) {
       reject(e);
@@ -83,6 +91,8 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
           module,
         );
       });
+
+      createDefinesData(this.projectDir, this.definesData);
     });
   }
 
