@@ -23,8 +23,12 @@ export function craBuild(projectDir: string, pathToPackage: string) {
   try {
     const packageDirPath = path.resolve(projectDir, pathToPackage);
     process.chdir(packageDirPath);
-    spawn.sync('PUBLIC_URL=.', ['yarn', 'build']);
+
+    // @ts-ignore
+    process.env['PUBLIC_URL'] = '.';
+    spawn.sync('yarn', ['build']);
     process.chdir(projectDir);
+
   } catch (e) {
     console.error(e);
   }
