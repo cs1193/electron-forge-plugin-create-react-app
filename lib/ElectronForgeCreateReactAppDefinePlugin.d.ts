@@ -1,4 +1,3 @@
-declare class ElectronForgeCreateReactAppDefinePlugin {
+export default class ElectronForgeCreateReactAppDefinePlugin {
     apply(compiler: any): void;
 }
-export default ElectronForgeCreateReactAppDefinePlugin;

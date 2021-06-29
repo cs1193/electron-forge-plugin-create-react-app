@@ -5,7 +5,7 @@ import webpack from 'webpack';
 
 import CreateReactAppPlugin from './CreateReactAppPlugin';
 
-class ElectronForgeCreateReactAppDefinePlugin {
+export default class ElectronForgeCreateReactAppDefinePlugin {
   apply(compiler: any) {
     const pluginName = ElectronForgeCreateReactAppDefinePlugin.name;
 
@@ -26,4 +26,3 @@ class ElectronForgeCreateReactAppDefinePlugin {
 //   return new webpack.DefinePlugin(definesData);
 // }
 
-export default ElectronForgeCreateReactAppDefinePlugin;
