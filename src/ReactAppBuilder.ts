@@ -16,7 +16,7 @@ export function installYarnModules(projectDir: string, pathToPackage: string) {
 
 export function copyBuildData(projectDir: string, pathToPackage: string) {
   const directoryName = path.basename(pathToPackage);
-  const tmpDir = path.resolve(projectDir, '.create-react-app', directoryName, 'build');
+  const tmpDir = path.join(projectDir, '.create-react-app', directoryName, 'build');
   const pkgPath = path.resolve(projectDir, pathToPackage, 'build');
   fse.copySync(pkgPath, tmpDir);
 }
