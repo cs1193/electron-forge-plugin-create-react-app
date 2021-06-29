@@ -1,5 +1,5 @@
-/* eslint-disable no-new */
-/* eslint-disable class-methods-use-this */
+/* eslint-disable import/prefer-default-export */
+
 import _ from 'lodash';
 import webpack from 'webpack';
 
@@ -20,7 +20,7 @@ import CreateReactAppPlugin from './CreateReactAppPlugin';
 //   }
 // }
 
-export default function WebpackDefinePlugin() {
+export function ElectronForgeCreateReactAppDefinePlugin() {
   let definesData = CreateReactAppPlugin.readDefinesData();
   definesData = _.cloneDeep(definesData);
   return new webpack.DefinePlugin(definesData);
