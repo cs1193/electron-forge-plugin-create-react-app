@@ -54,3 +54,16 @@ export function createDefinesData(projectDir: string, definesData: any) {
     );
   }
 }
+
+export function readDefinesData(projectDir: string) {
+  try {
+    const definesFile = path.join(projectDir, '.create-react-app', 'defines.json');
+    const readData = fs.readFileSync(definesFile);
+    return definesFile && JSON.parse(readData.toString());
+  } catch (e) {
+    console.error(
+      chalk.red(e),
+    );
+    return false;
+  }
+}

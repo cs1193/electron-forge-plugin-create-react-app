@@ -14,7 +14,8 @@ import {
   copyBuildData,
   toEnvironmentVariable,
   lernaBootstrap,
-  createDefinesData
+  createDefinesData,
+  readDefinesData,
 } from './ReactAppBuilder';
 
 const d = debug('electron-forge:plugin:create-react-app');
@@ -23,6 +24,8 @@ export interface ICreateReactAppPlugin {}
 
 export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlugin> {
   name = 'create-react-app';
+
+  private static projectDir: string;
 
   private projectDir!: string;
 
@@ -64,6 +67,7 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
 
   setDirectories = (dir: string) => {
     this.projectDir = dir;
+    CreateReactAppPlugin.projectDir = dir;
     this.craDir = path.resolve(dir, '.create-react-app');
   }
 
@@ -109,5 +113,10 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
   // eslint-disable-next-line class-methods-use-this
   async startLogic(): Promise<false> {
     return false;
+  }
+
+  public static readDefinesData() {
+    const definesData = readDefinesData(CreateReactAppPlugin.projectDir);
+    return _.size(_.keys(definesData)) > 0 ? definesData : {};
   }
 }

@@ -3,6 +3,7 @@ export interface ICreateReactAppPlugin {
 }
 export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlugin> {
     name: string;
+    private static projectDir;
     private projectDir;
     private craDir;
     private definesData;
@@ -17,4 +18,5 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
     buildReactApps: () => Promise<void>;
     getHook(name: string): (() => Promise<void>) | null;
     startLogic(): Promise<false>;
+    static readDefinesData(): any;
 }

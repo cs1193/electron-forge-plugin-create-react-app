@@ -3,3 +3,4 @@ export declare function copyBuildData(projectDir: string, packageName: string, p
 export declare function toEnvironmentVariable(name: string): string;
 export declare function lernaBootstrap(projectDir: string): void;
 export declare function createDefinesData(projectDir: string, definesData: any): void;
+export declare function readDefinesData(projectDir: string): any;
