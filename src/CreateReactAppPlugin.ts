@@ -68,7 +68,7 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
   setDirectories = (dir: string) => {
     this.projectDir = dir;
     CreateReactAppPlugin.projectDir = dir;
-    this.craDir = path.resolve(dir, '.webpack');
+    this.craDir = path.resolve(dir, '.create-react-app');
   }
 
   // eslint-disable-next-line max-len
@@ -78,7 +78,7 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
       installYarnModules(this.projectDir, module.path);
       copyBuildData(this.projectDir, module.name, module.path);
 
-      this.definesData[defineName] = `.webpack/renderer/${module.name}/index.html`;
+      this.definesData[defineName] = `.create-react-app/${module.name}/index.html`;
       resolve(defineName);
     } catch (e) {
       reject(e);

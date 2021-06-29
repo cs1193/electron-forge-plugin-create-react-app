@@ -21,7 +21,7 @@ export function installYarnModules(projectDir: string, pathToPackage: string) {
 
 export function copyBuildData(projectDir: string, packageName: string, pathToPackage: string) {
   try {
-    const tmpDir = path.join(projectDir, '.webpack', 'renderer', packageName, 'build');
+    const tmpDir = path.join(projectDir, '.create-react-app', packageName, 'build');
     const pkgPath = path.resolve(projectDir, pathToPackage, 'build');
     fse.copySync(pkgPath, tmpDir);
   } catch (e) {
@@ -46,7 +46,7 @@ export function lernaBootstrap(projectDir: string) {
 
 export function createDefinesData(projectDir: string, definesData: any) {
   try {
-    const definesFile = path.join(projectDir, '.webpack', 'defines.json');
+    const definesFile = path.join(projectDir, '.create-react-app', 'defines.json');
     fs.writeFileSync(definesFile, JSON.stringify(definesData, null, 2));
   } catch (e) {
     console.error(
@@ -57,7 +57,7 @@ export function createDefinesData(projectDir: string, definesData: any) {
 
 export function readDefinesData(projectDir: string) {
   try {
-    const definesFile = path.join(projectDir, '.webpack', 'defines.json');
+    const definesFile = path.join(projectDir, '.create-react-app', 'defines.json');
     const readData = fs.readFileSync(definesFile);
     return definesFile && JSON.parse(readData.toString());
   } catch (e) {
