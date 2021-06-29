@@ -1,32 +1,24 @@
 import spawn from 'cross-spawn';
 import path from 'path';
-import fs from 'fs';
 
 import * as fse from 'fs-extra';
 import * as _ from 'lodash';
 
 // eslint-disable-next-line import/prefer-default-export
 export function installYarnModules(projectDir: string, pathToPackage: string) {
-  // const packageDirPath = path.join(process.cwd(), '../../packages', directoryName);
   const appDir = process.cwd();
-  // const packageName: string = path.basename(pathToPackage);
   const packageDirPath = path.resolve(projectDir, pathToPackage);
 
-  console.log(process.cwd(), packageDirPath);
-
   process.chdir(packageDirPath);
-  console.log(process.cwd());
   spawn.sync('yarn', ['install']);
   process.chdir(appDir);
 }
 
-export function copyBuildData(pathToPackage: string) {
-  const tmpDir = path.join(process.cwd(), '.create-react-app');
+export function copyBuildData(projectDir: string, pathToPackage: string) {
   const directoryName = path.basename(pathToPackage);
-  const tmpDirPath = path.join(tmpDir, directoryName);
-  const pkgPath = path.join(process.cwd(), 'packages', directoryName);
-
-  fse.copySync(pkgPath, tmpDirPath);
+  const tmpDir = path.resolve(projectDir, '.create-react-app', directoryName, 'build');
+  const pkgPath = path.resolve(projectDir, pathToPackage, 'build');
+  fse.copySync(pkgPath, tmpDir);
 }
 
 // eslint-disable-next-line class-methods-use-this

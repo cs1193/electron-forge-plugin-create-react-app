@@ -66,7 +66,7 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
     try {
       const defineName: string = toEnvironmentVariable(module.name);
       installYarnModules(this.projectDir, module.path);
-      copyBuildData(module.path);
+      copyBuildData(this.projectDir, module.path);
       resolve(defineName);
     } catch (e) {
       reject(e);
