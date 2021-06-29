@@ -13,6 +13,7 @@ import {
   installYarnModules,
   copyBuildData,
   toEnvironmentVariable,
+  lernaBootstrap
 } from './ReactAppBuilder';
 
 const d = debug('electron-forge:plugin:create-react-app');
@@ -89,6 +90,7 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
     switch (name) {
       case 'prePackage':
         return async () => {
+          lernaBootstrap(this.projectDir);
           await this.buildReactApps();
         };
       default:
