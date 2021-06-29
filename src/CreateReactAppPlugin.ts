@@ -78,7 +78,7 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
       installYarnModules(this.projectDir, module.path);
       copyBuildData(this.projectDir, module.name, module.path);
 
-      this.definesData[defineName] = `.webpack/${module.name}/index.html`;
+      this.definesData[defineName] = `.webpack/renderer/${module.name}/index.html`;
       resolve(defineName);
     } catch (e) {
       reject(e);
@@ -93,7 +93,11 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
           module,
         );
       });
+    });
+  }
 
+  createDefinesDataFile = async () => {
+    await asyncOra('Creating Defines Data', async () => {
       createDefinesData(this.projectDir, this.definesData);
     });
   }
@@ -102,8 +106,9 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
     switch (name) {
       case 'prePackage':
         return async () => {
-          lernaBootstrap(this.projectDir);
+          lernaBootstrap(process.cwd());
           await this.buildReactApps();
+          await this.createDefinesDataFile();
         };
       default:
         return null;

@@ -16,6 +16,7 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
     setDirectories: (dir: string) => void;
     private runYarnBuildReactApp;
     buildReactApps: () => Promise<void>;
+    createDefinesDataFile: () => Promise<void>;
     getHook(name: string): (() => Promise<void>) | null;
     startLogic(): Promise<false>;
     static readDefinesData(): any;

@@ -21,7 +21,7 @@ export function installYarnModules(projectDir: string, pathToPackage: string) {
 
 export function copyBuildData(projectDir: string, packageName: string, pathToPackage: string) {
   try {
-    const tmpDir = path.join(projectDir, '.webpack', packageName, 'build');
+    const tmpDir = path.join(projectDir, '.webpack', 'renderer', packageName, 'build');
     const pkgPath = path.resolve(projectDir, pathToPackage, 'build');
     fse.copySync(pkgPath, tmpDir);
   } catch (e) {
