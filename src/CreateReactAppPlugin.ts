@@ -65,6 +65,7 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
   private runYarnBuildReactApp = async (module: any): Promise<any | undefined> => new Promise((resolve, reject) => {
     try {
       const defineName: string = toEnvironmentVariable(module.name);
+      console.log('runYarnBuild', this.projectDir, module, defineName);
       installYarnModules(this.projectDir, module.path);
       copyBuildData(this.projectDir, module.path);
       resolve(defineName);
