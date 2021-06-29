@@ -15,7 +15,8 @@ export function installYarnModules(projectDir: string, pathToPackage: string) {
   console.log(process.cwd(), packageDirPath);
 
   process.chdir(packageDirPath);
-  spawn.sync('yarn');
+  console.log(process.cwd());
+  spawn.sync('yarn', ['install']);
   process.chdir(appDir);
 }
 
