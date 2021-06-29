@@ -5,6 +5,7 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
     name: string;
     private projectDir;
     private craDir;
+    private definesData;
     constructor(opts: ICreateReactAppPlugin);
     exitHandler: (options: {
         cleanup?: boolean;

@@ -76,7 +76,6 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
       copyBuildData(this.projectDir, module.path);
 
       this.definesData[defineName] = `.create-react-app/${module.name}/index.html`;
-
       resolve(defineName);
     } catch (e) {
       reject(e);
@@ -92,6 +91,7 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
         );
       });
 
+      console.log(this.definesData);
       createDefinesData(this.projectDir, this.definesData);
     });
   }
