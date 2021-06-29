@@ -6,12 +6,11 @@ import * as _ from 'lodash';
 
 // eslint-disable-next-line import/prefer-default-export
 export function installYarnModules(projectDir: string, pathToPackage: string) {
-  const appDir = process.cwd();
   const packageDirPath = path.resolve(projectDir, pathToPackage);
 
   process.chdir(packageDirPath);
   spawn.sync('yarn', ['install']);
-  process.chdir(appDir);
+  process.chdir(projectDir);
 }
 
 export function copyBuildData(projectDir: string, pathToPackage: string) {
