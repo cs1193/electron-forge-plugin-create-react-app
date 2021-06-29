@@ -19,6 +19,17 @@ export function installYarnModules(projectDir: string, pathToPackage: string) {
   }
 }
 
+export function craBuild(projectDir: string, pathToPackage: string) {
+  try {
+    const packageDirPath = path.resolve(projectDir, pathToPackage);
+    process.chdir(packageDirPath);
+    spawn.sync('PUBLIC_URL=.', ['yarn', 'build']);
+    process.chdir(projectDir);
+  } catch (e) {
+    console.error(e);
+  }
+}
+
 export function copyBuildData(projectDir: string, packageName: string, pathToPackage: string) {
   try {
     const tmpDir = path.join(projectDir, '.create-react-app', packageName, 'build');

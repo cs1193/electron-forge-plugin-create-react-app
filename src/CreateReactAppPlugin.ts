@@ -16,6 +16,7 @@ import {
   lernaBootstrap,
   createDefinesData,
   readDefinesData,
+  craBuild
 } from './ReactAppBuilder';
 
 const d = debug('electron-forge:plugin:create-react-app');
@@ -76,6 +77,7 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
     try {
       const defineName: string = toEnvironmentVariable(module.name);
       installYarnModules(this.projectDir, module.path);
+      craBuild(this.projectDir, module.path);
       copyBuildData(this.projectDir, module.name, module.path);
 
       this.definesData[defineName] = `\`file:///${path.resolve(__dirname, '..', '..', '..', '.create-react-app', module.name, 'build', 'index.html')}\``;
