@@ -80,7 +80,7 @@ export default class CreateReactAppPlugin extends PluginBase<ICreateReactAppPlug
       craBuild(this.projectDir, module.path);
       copyBuildData(this.projectDir, module.name, module.path);
 
-      this.definesData[defineName] = `\`file:///${path.resolve(__dirname, '..', '..', '..', '.create-react-app', module.name, 'build', 'index.html')}\``;
+      this.definesData[defineName] = `\`file:///${path.resolve(__dirname, '..', '.create-react-app', module.name, 'build', 'index.html')}\``;
       resolve(defineName);
     } catch (e) {
       reject(e);
